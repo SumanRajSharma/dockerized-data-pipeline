@@ -64,7 +64,7 @@ prefect orion start
 ```
 database_block = SqlAlchemyConnector.load("localhost-postgres-connector")
 with database_block.get_connection(begin=False) as engine:
- # Perform the writing operation
+
 ```
 
 ## Requirements
