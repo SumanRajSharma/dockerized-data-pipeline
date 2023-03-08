@@ -3,7 +3,7 @@ locals {
 }
 
 variable "project" {
-  description = "coral-antonym-379305" //Your GCP Project ID
+  description = "Your GCP Project ID" //Your GCP Project ID
 }
 
 variable "region" {
