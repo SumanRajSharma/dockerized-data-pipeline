@@ -20,9 +20,9 @@ To get started with the pipeline, follow these steps:
 2. Install Docker and Docker Compose.
 3. Run the following command to start the Docker containers:
 
-```bash
- docker-compose up 
-```
+ ```bash
+  docker-compose up 
+ ```
 
 This will start two containers: one for the PostgreSQL database and one for pgAdmin.
 
@@ -39,23 +39,23 @@ Once the Docker containers are up and running, you can use the included Python s
 2. Navigate to the root of the repository.
 3. Run the following command to start the ingestion script:
 
-```bash
-docker build -t python:v0.0.1 .
-docker run --network pg-database-network python:v0.0.1
-```
+ ```bash
+ docker build -t python:v0.0.1 .
+ docker run --network pg-database-network python:v0.0.1
+ ```
 
 This will download the specified CSV file, transform it, and load it into the PostgreSQL database. The ingestion script uses pandas and prefect-sqlalchemy to handle the data and database operations.
 
 ## Note 
 The db credentials are added to Prefect block using `SQLAlchemy Connector`. You need to configure this after running `docker build -t python:v0.0.1 .`
 1. Access bash of the python container built
-```
-docker exec -it <container_name> /bin/bash
-```
+ ```
+ docker exec -it <container_name> /bin/bash
+ ```
 2. Access Prefect orion API
-```
-prefect orion start
-```
+ ```
+ prefect orion start
+ ```
 3. Access Prefect dashboard at http://127.0.0.1:4200 
 4. Select `Blocks` from side menu
 5. Add new blocks button and select `SQLAlchemy Connector`; for reference see the screenshot
