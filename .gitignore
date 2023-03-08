@@ -7,3 +7,8 @@ yellow_tripdata_2021-01.csv.gz
 coral-antonym-379305-6e12793dd326.json
 command.txt
 ny_taxi_postgres_data
+terraform/.terraform-version
+terraform/.terraform.lock.hcl
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
