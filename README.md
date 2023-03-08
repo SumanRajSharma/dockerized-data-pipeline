@@ -48,9 +48,15 @@ This will download the specified CSV file, transform it, and load it into the Po
 ## Requirements
 The following dependencies are required to run the ingestion script:
 
-- pandas==1.5.3
-- psycopg2-binary==2.9.5
-- sqlalchemy==2.0.4
+pandas==1.5.3
+psycopg2-binary==2.9.5
+sqlalchemy==1.4.46
+prefect==2.8.4
+prefect-sqlalchemy==0.2.4
+prefect-gcp[cloud_storage]==0.3.0
+protobuf==4.22.1
+pyarrow==11.0.0
+pandas-gbq==0.19.1
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
