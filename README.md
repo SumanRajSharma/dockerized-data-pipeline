@@ -1,11 +1,23 @@
 # Dockerized Data Pipeline using [Prefect](https://docs.prefect.io/)
-This is a collection of scripts and Docker configuration files that enable the user to create a data pipeline for ingesting NY taxi data into a PostgreSQL database.
+This repository contains the code for an ETL (extract, transform, load) pipeline that ingests and processes New York City taxi trip data from DataTalksClub/nyc-tlc-data, and loads the resulting data into a PostgreSQL database.
 
-## Setup
-To get started, you'll need to have Docker installed on your machine. Then, follow these steps:
+The pipeline is built using Python, Docker, and Prefect. The data is extracted from the source URL using wget, and then processed using pandas and SQLalchemy. The final processed data is loaded into a PostgreSQL database using the Prefect-SQLAlchemy integration.
 
-1. Clone this repository to your local machine.
-2. Navigate to the root of the repository.
+## Project Structure
+The project directory contains the following files and directories:
+
+- Dockerfile: Specifies the Docker image to use for the pipeline.
+- docker-compose.yml: Specifies the Docker containers to use for the pipeline, including PostgreSQL and pgAdmin.
+- requirements.txt: Specifies the Python dependencies for the pipeline.
+- ingest_data.py: Contains the code for the ETL pipeline.
+- terraform/: Contains the Terraform code to deploy the infrastructure required to run the pipeline. (Not nedded for now)
+- ny_taxi_postgres_data/: Contains the PostgreSQL data directory for persistent storage of the database.
+
+## Getting Started
+To get started with the pipeline, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Install Docker and Docker Compose.
 3. Run the following command to start the Docker containers:
 
 ```bash
@@ -26,24 +38,27 @@ Once the Docker containers are up and running, you can use the included Python s
 1. Open a new terminal window.
 2. Navigate to the root of the repository.
 3. Run the following command to start the ingestion script:
-```bash
-docker-compose run ingest-data <arguments>
-```
-Replace `<arguments>` with the appropriate values for the following arguments:
-
-- `--user`: the user name for PostgreSQL.
-- `--password`: the password for PostgreSQL.
-- `--host`: the host for PostgreSQL.
-- `--port`: the port for PostgreSQL.
-- `--db`: the database name for PostgreSQL.
-- `--table_name`: the name of the table where we will write the results to.
-- `--url`: the URL of the CSV file containing the NY taxi data.
-For example:
 
 ```bash
-docker-compose run ingest-data --user=root --password=root --host=pgdatabase --port=5432 --db=ny_taxi --table_name=taxi_trips --url=https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2019-01.csv
+docker build -t python:v0.0.1 .
+docker run --network pg-database-network python:v0.0.1
 ```
-This will download the specified CSV file, transform it, and load it into the PostgreSQL database. The ingestion script uses pandas and sqlalchemy to handle the data and database operations.
+
+This will download the specified CSV file, transform it, and load it into the PostgreSQL database. The ingestion script uses pandas and prefect-sqlalchemy to handle the data and database operations.
+
+## Note 
+The db credentials are added to Prefect block using `SQLAlchemy Connector`. You need to configure this after running `docker build -t python:v0.0.1 .`
+1. Access bash of the python container built
+```
+docker exec -it <container_name> /bin/bash
+```
+2. Access Prefect orion API
+```
+prefect orion start
+```
+3. Access Prefect dashboard at http://127.0.0.1:4200 
+4. Select `Blocks` from side menu
+5. Add new blocks button and select `SQLAlchemy Connector`
 
 ## Requirements
 The following dependencies are required to run the ingestion script:
