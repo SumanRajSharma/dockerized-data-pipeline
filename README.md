@@ -59,7 +59,6 @@ prefect orion start
 3. Access Prefect dashboard at http://127.0.0.1:4200 
 4. Select `Blocks` from side menu
 5. Add new blocks button and select `SQLAlchemy Connector`; for reference see the screenshot
-<img width="1403" alt="Screenshot 2023-03-08 at 6 39 28 pm" src="https://user-images.githubusercontent.com/6215331/223654682-b9c3d9ee-0e2a-4a97-b379-cf7b46486cb5.png">
 6. After creating the block you can access using this line (ingest_data.py)
 
 ```
