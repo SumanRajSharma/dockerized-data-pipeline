@@ -9,7 +9,7 @@ from prefect_sqlalchemy import SqlAlchemyConnector
 
 
 @task(log_prints=True, retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
-def extract_data(url):
+def extract_data(url) -> pd.DataFrame:
     # the backup files are gzipped, and it's important to keep the correct extension
     # for pandas to be able to open the file
     if url.endswith('.csv.gz'):
@@ -21,7 +21,7 @@ def extract_data(url):
     df = pd.read_csv(csv_name)
     return df
 @task(log_prints=True, retries=3)
-def transform_data(df):
+def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     # changing the datatype of tpep_pickup_datetime and tpep_dropoff_datetime to pandas datetype
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
@@ -33,7 +33,7 @@ def transform_data(df):
     return df
 
 @task(log_prints=True, retries=3)
-def load_data(table_name, df):
+def load_data(table_name: str, df: pd.DataFrame):
     database_block = SqlAlchemyConnector.load("localhost-postgres-connector")
     # Set the chunksize
     chunksize = 100000
